@@ -1,0 +1,3 @@
+Frogger game GBA instruction manual
+
+When on the start page, follow the instructions on the screen and press the START key to start. Use the direction buttons to move the player(green square in this case), in both yellow zones and blue zones, players are safe, when the player crosses the road and gets hit by a car, they lose a life and restart at the beginning. If the player is in the river and not on a log, the player loses a life and restarts. Once the player crosses the river onto the blue zone, they win the game. Otherwise, if the player loses all three lives they lose the game. In both win/lose states of the game, the player can press START to try the game again. 
