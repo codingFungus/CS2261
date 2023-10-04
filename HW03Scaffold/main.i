@@ -372,7 +372,7 @@ typedef struct {
 
 
 
-extern BULLET bullets[10];
+extern BULLET bullets[25];
 extern Enemy enemies[10];
 extern int score;
 extern Player player;
@@ -1347,10 +1347,9 @@ void game() {
     drawRectangle(180, 5, 6, 8, (((0) & 31) | ((0) & 31) << 5 | ((0) & 31) << 10));
     drawString(180, 5, buffer1, (((0) & 31) | ((0) & 31) << 5 | ((31) & 31) << 10));
 
-
     if ((((~buttons & (1<<3)) && !(~oldButtons & (1<<3))))) {
         goToPause();
-    } else if (score == 8) {
+    } else if (score == 7) {
         goToWin();
     } else if (player.dead) {
         goToLose();

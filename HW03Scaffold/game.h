@@ -38,7 +38,7 @@ typedef struct {
     int erased;
 } Enemy;
 
-#define BULLETCOUNT 10
+#define BULLETCOUNT 25
 #define ENEMYCOUNT 10
 extern BULLET bullets[BULLETCOUNT];
 extern Enemy enemies[ENEMYCOUNT];

@@ -99,10 +99,9 @@ void game() {
     drawRectangle(180, 5, 6, 8, BLACK);
     drawString(180, 5, buffer1, BLUE);
 
-
     if (BUTTON_PRESSED(BUTTON_START)) {
         goToPause();
-    } else if (score == 7) {
+    } else if (score == 8) {
         goToWin();
     } else if (player.dead) {
         goToLose();

@@ -10,6 +10,7 @@ Enemy *enemyToErase;
 
 int score;
 
+//initializing the game
 void initGame() {
     initBullet();
     initEnemy();
@@ -47,8 +48,8 @@ void initEnemy() {
     for (int i = 0; i < ENEMYCOUNT; i++) {
         enemies[i].width = 10;
         enemies[i].height = 6;
-        enemies[i].x = rand() % 110;
-        enemies[i].y = rand() % 110 + 10;
+        enemies[i].x = rand() % 115;
+        enemies[i].y = rand() % 110 + 15;
 
         enemies[i].oldx = player.x;
         enemies[i].oldy = player.y;
@@ -89,7 +90,8 @@ void updateBullet(BULLET * b) {
     if (b->active) {
         b->y += b->yspeed;
     }
-    if (b->y == 5) {
+    if (b->y < 15) {
+        
         b->erased = 1;
         b->active = 0;
         drawCircle(b->oldx, b->oldy, b->radius, BLACK);
@@ -101,7 +103,7 @@ void updateBullet(BULLET * b) {
     }
 
 }
-
+//if player is in upper half of the screen, player is in slow zone
 int inSlowZone() {
     if ((player.y > 0 && player.y < 80) && (player.x < 240)) {
         return 1;
@@ -112,10 +114,11 @@ int inSlowZone() {
 }
 int inBorder() {
     if (player.x >= 0 && player.x <= SCREENWIDTH - player.width
-        && player.y >= 25 && player.y <= 160 - player.height) {
+        && player.y >= 20 && player.y <= 160 - player.height) {
             return 1;
     }
 }
+//player's speed reduces to half when in slow zone
 void updatePlayer() {
     if (inBorder()) {
         if (BUTTON_HELD(BUTTON_LEFT) && inSlowZone()) {
@@ -142,6 +145,7 @@ void updatePlayer() {
         }
         else if (BUTTON_HELD(BUTTON_UP) && !inSlowZone()) {
             player.y -= player.yspeed;
+        //press A to spawn bullet
         } else if (BUTTON_PRESSED(BUTTON_A)) {
             spawnBullet();
             REG_SND2CNT = DMG_ENV_VOL(4) | DMG_DIRECTION_DECR |
@@ -150,6 +154,7 @@ void updatePlayer() {
 
         }
     }
+    //prevents player from leaving the screen
     if (player.x < 0) {
         player.x += 3;
     }
@@ -162,6 +167,14 @@ void updatePlayer() {
     if (player. y >= SCREENHEIGHT - player.height) {
         player.y -= 3;
     }
+    //when player scores more than 5 points, the color, shape and speed changes
+    if (score >= 5) {
+        player.width = 15;
+        player.height = 12;
+        player.color = CYAN;
+        player.xspeed = 4;
+        player.yspeed = 4;
+    }
 }
 
 void updateEnemy(Enemy* e) {
@@ -169,7 +182,7 @@ void updateEnemy(Enemy* e) {
         if (e->x <= 0 || e->x + e->width >= SCREENWIDTH) {
             e->xspeed *= -1;
         }
-        if (e->y <= 25 || e->y + e->height - 1 >= SCREENHEIGHT - 20) {
+        if (e->y <= 20 || e->y + e->height - 1 >= SCREENHEIGHT - 25) {
             e->yspeed *= -1;
         }
         e->x += e->xspeed;

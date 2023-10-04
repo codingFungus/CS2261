@@ -976,7 +976,7 @@ typedef struct {
 
 
 
-extern BULLET bullets[10];
+extern BULLET bullets[25];
 extern Enemy enemies[10];
 extern int score;
 extern Player player;
@@ -999,7 +999,7 @@ void drawBullet(BULLET* b);
 
 
 Player player;
-BULLET bullets[10];
+BULLET bullets[25];
 Enemy enemies[10];
 Enemy *enemyToErase;
 
@@ -1025,7 +1025,7 @@ void initPlayer() {
     player.dead = 0;
 }
 void initBullet() {
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 25; i++) {
         bullets[i].radius = 2;
         bullets[i].x = -(bullets[i].radius);
         bullets[i].y = 0;
@@ -1042,8 +1042,8 @@ void initEnemy() {
     for (int i = 0; i < 10; i++) {
         enemies[i].width = 10;
         enemies[i].height = 6;
-        enemies[i].x = rand() % 110;
-        enemies[i].y = rand() % 110 + 10;
+        enemies[i].x = rand() % 115;
+        enemies[i].y = rand() % 110 + 15;
 
         enemies[i].oldx = player.x;
         enemies[i].oldy = player.y;
@@ -1056,7 +1056,7 @@ void initEnemy() {
     }
 }
 void spawnBullet() {
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 25; i++) {
         if (!bullets[i].active) {
             bullets[i].x = player.x;
             bullets[i].y = player.y + player.width / 2 - bullets[i].radius/2;
@@ -1071,7 +1071,7 @@ void spawnBullet() {
 
 void updateGame() {
     updatePlayer();
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 25; i++) {
         updateBullet(&bullets[i]);
     }
     for (int i = 0; i < 10; i++) {
@@ -1084,7 +1084,8 @@ void updateBullet(BULLET * b) {
     if (b->active) {
         b->y += b->yspeed;
     }
-    if (b->y == 5) {
+    if (b->y < 15) {
+
         b->erased = 1;
         b->active = 0;
         drawCircle(b->oldx, b->oldy, b->radius, (((0) & 31) | ((0) & 31) << 5 | ((0) & 31) << 10));
@@ -1107,7 +1108,7 @@ int inSlowZone() {
 }
 int inBorder() {
     if (player.x >= 0 && player.x <= 240 - player.width
-        && player.y >= 25 && player.y <= 160 - player.height) {
+        && player.y >= 20 && player.y <= 160 - player.height) {
             return 1;
     }
 }
@@ -1157,6 +1158,14 @@ void updatePlayer() {
     if (player. y >= 160 - player.height) {
         player.y -= 3;
     }
+
+    if (score >= 5) {
+        player.width = 15;
+        player.height = 12;
+        player.color = (((0) & 31) | ((31) & 31) << 5 | ((31) & 31) << 10);
+        player.xspeed = 4;
+        player.yspeed = 4;
+    }
 }
 
 void updateEnemy(Enemy* e) {
@@ -1164,13 +1173,13 @@ void updateEnemy(Enemy* e) {
         if (e->x <= 0 || e->x + e->width >= 240) {
             e->xspeed *= -1;
         }
-        if (e->y <= 25 || e->y + e->height - 1 >= 160 - 20) {
+        if (e->y <= 20 || e->y + e->height - 1 >= 160 - 25) {
             e->yspeed *= -1;
         }
         e->x += e->xspeed;
         e->y += e->yspeed;
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 25; i++) {
             if (bullets[i].active && collision(e->x, e->y, e->width, e->height,
                 bullets[i].x, bullets[i].y, bullets[i].radius, bullets[i].radius)) {
                     bullets[i].active = 0;
@@ -1198,7 +1207,7 @@ void updateEnemy(Enemy* e) {
 
 void drawGame() {
     drawPlayer();
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 25; i++) {
         drawBullet(&bullets[i]);
     }
     for (int i = 0; i < 10; i++) {

@@ -446,7 +446,7 @@ game:
 	bne	.L62
 .L55:
 	ldr	r3, [r4]
-	cmp	r3, #8
+	cmp	r3, #7
 	beq	.L63
 	ldr	r3, .L65+44
 	ldr	r3, [r3, #36]
