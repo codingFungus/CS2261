@@ -1,2 +1,3 @@
 # CS2261
-This is the repository for the course cs2261
+
+This is my repo for CS 2261
