@@ -2,7 +2,6 @@
 #include "digitalSound.h"
 
 void setupSounds() {
-
     REG_SOUNDCNT_X = SND_ENABLED;
 
 	REG_SOUNDCNT_H = SND_OUTPUT_RATIO_100 |
